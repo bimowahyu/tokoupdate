@@ -6,6 +6,7 @@ include("uilang.php");
 if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 	$id = mysqli_real_escape_string($connection, $_POST["id"]);
 	$posttitle = mysqli_real_escape_string($connection, $_POST["editposttitle"]);
+	$stok = mysqli_real_escape_string($connection, $_POST["stok"]);
 	$catid = mysqli_real_escape_string($connection, $_POST["editcatid"]);
 	$normalprice = mysqli_real_escape_string($connection, $_POST["editnormalprice"]);
 	$discountprice = mysqli_real_escape_string($connection, $_POST["editdiscountprice"]);
@@ -62,8 +63,11 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 				$newpicture = $oldpicture;
 			}
 			
-			mysqli_query($connection, "UPDATE $tableposts SET title = '$posttitle', catid = $catid, content = '$content', picture = '$newpicture', normalprice='$normalprice', discountprice='$discountprice', options='$moreoptions', moreimages = '$moreimages' WHERE id = $id");
-			echo "<div class='alert'>" .uilang("Post successfully updated."). "</div>";
+			$updateQuery = "UPDATE $tableposts SET title = '$posttitle', catid = $catid, stok = '$stok', content = '$content', picture = '$newpicture', normalprice = $normalprice, discountprice = $discountprice, options = '$moreoptions', moreimages = '$moreimages' WHERE id  = $id";
+		
+           $updateResult = mysqli_query($connection, $updateQuery);
+		   echo "<div class='alert'>" .uilang("Post successfully updated."). "</div>";
+           
 		
 		}
 	}	

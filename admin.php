@@ -1,17 +1,19 @@
 <?php
-/*
-Developed by Habibie
-Email: habibieamrullah@gmail.com 
-WhatsApp: 6287880334339
-WebSite: https://webappdev.my.id
-*/
 
 session_start();
 include("config.php");
 include("functions.php");
 include("uilang.php");
 
-?>
+
+
+		//if admin logged in
+
+if(!isset($_SESSION['session_username'])){
+    header("location:login.php");
+    exit();
+}
+			?>	
 
 
 <!DOCTYPE html>
@@ -65,11 +67,7 @@ include("uilang.php");
 	</head>
 	<body>
 		<div class="barsbutton" onclick="toggleadminmenu()"><i class="fa fa-bars"></i></div>
-		<?php
-		//if admin logged in
-		if(isset($_SESSION["adminusername"]) && isset($_SESSION["adminpassword"])){
-			if($username == $_SESSION["adminusername"] && $password == $_SESSION["adminpassword"]){
-				?>
+		
 				
 				<div style="display: table; position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
 					<div style="display: table-row; height: 100%;">
@@ -92,7 +90,7 @@ include("uilang.php");
 								<a href="<?php echo $baseurl ?>admin.php?settings"><div class="adminleftbaritem"><i class="fa fa-cogs" style="width: 30px;"></i> <?php echo uilang("Settings") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?logout"><div class="adminleftbaritem"><i class="fa fa-sign-out" style="width: 30px;"></i> <?php echo uilang("Logout") ?></div></a>
 								
-								<div style="text-align: center; padding: 30px; font-size: 10px;"><?php echo uilang("Developed by") ?><br><a target="_blank" class="textlink" style="color: lime;" href="https://webappdev.my.id/">https://webappdev.my.id/</a><br><br>Donate to the author:<br><a href="https://www.paypal.me/habibieamrullah" class="textlink" style="color: lime;">https://www.paypal.me/habibieamrullah</a></div>
+								
 							</div>
 						</div>
 						<div style="display: table-cell; padding: 25px; vertical-align: top; border-left: 1px solid <?php echo $maincolor ?>; ">
@@ -104,7 +102,10 @@ include("uilang.php");
 									<h1><?php echo uilang("Add Product") ?></h1>
 									<form action="postupload.php" method="post" enctype="multipart/form-data">
 										<label><i class="fa fa-edit"></i> <?php echo uilang("Title") ?></label>
+										
 										<input name="newposttitle" placeholder="<?php echo uilang("Title") ?>">
+										<label><i class="fa fa-edit"></i>Stock</label>
+										<input type="number" name="stok" placeholder="Jumlah stock">
 										<label><i class="fa fa-money"></i> <?php echo uilang("Price") ?></label>
 										<input type="number" step="0.01" name="newpostnormalprice" placeholder="<?php echo uilang("Price") ?>">
 										<label><i class="fa fa-money"></i> <?php echo uilang("Discount Price") ?></label>
@@ -643,13 +644,15 @@ include("uilang.php");
 									<div class="postform">
 										<h1><?php echo uilang("Edit Post") ?></h1>
 										<form action="postupdate.php" method="post" enctype="multipart/form-data">
-											<label><i class="fa fa-edit"></i> <?php echo uilang("Title") ?></label>
+											<label><i class="fa fa-edit"></i> <?php echo uilang("Title") ?></label><!--nama barang-->
 											<input name="editposttitle" placeholder="<?php echo uilang("Title") ?>" value="<?php echo $row["title"] ?>">
-											<label><i class="fa fa-money"></i> <?php echo uilang("Price") ?></label>
+											<label><i class="fa fa-edit"></i>Stock</label><!--Stok-->
+											<input type="number" name="stok" placeholder="Jumlah stock" value="<?php echo $row['stok']; ?>">
+											<label><i class="fa fa-money"></i> <?php echo uilang("Price") ?></label><!--harga-->
 											<input type="number" step="0.01" name="editnormalprice" placeholder="<?php echo uilang("Price") ?>" value="<?php echo $row["normalprice"] ?>">
-											<label><i class="fa fa-money"></i> <?php echo uilang("Discount Price") ?></label>
+											<label><i class="fa fa-money"></i> <?php echo uilang("Discount Price") ?></label><!--diskon-->
 											<input type="number" step="0.01" name="editdiscountprice" placeholder="<?php echo uilang("Discount Price") ?>" value="<?php echo $row["discountprice"] ?>">
-											<label><i class="fa fa-tag"></i> <?php echo uilang("Category") ?></label>
+											<label><i class="fa fa-tag"></i> <?php echo uilang("Category") ?></label><!--kategori-->
 											
 											<select name="editcatid">
 												<?php
@@ -1005,48 +1008,10 @@ include("uilang.php");
 				</script>
 				
 				<?php
-			}else{
-				echo "<div class='alert'>Login error!</div>";
-			}
-		}
+			
+		
 		//not logged in
-		else{
-			//check login info
-			if(isset($_POST["username"]) && isset($_POST["password"])){
-				if($username == $_POST["username"] && $password == $_POST["password"]){
-					$_SESSION["adminusername"] = $_POST["username"];
-					$_SESSION["adminpassword"] = $_POST["password"];
-					echo "<div class='alert'>" .uilang("Login success!"). "</div>";
-					echo "<script>location.href='" .$baseurl. "admin.php'</script>";
-				}else{
-					echo "<div class='alert'>Login error!</div>";
-				}
-			}
-			//show login form
-			else{
-				?>
-				<div class="loginform">
-					<div style="text-align: center; padding: 20px;">
-						<?php
-						$currentlogo = "images/logo.png";
-						if($logo != "")
-							$currentlogo = "pictures/" . $logo;
-						?>
-						<img src="<?php echo $currentlogo ?>" width="128"><br>
-						<p><?php echo $websitetitle ?> - Admin Panel</p>
-					</div>
-					<h1><?php echo uilang("Login") ?></h1>
-					<form method="post">
-						<input type="text" name="username" placeholder="Username">
-						<input type="password" name="password" placeholder="Password">
-						<input class="submitbutton" type="submit" value="<?php echo uilang("Login") ?>">
-					</form>
-				</div>
-				<?php
-			}
-			
-			
-		}
+		
 		
 		//log out
 		if(isset($_GET["logout"])){

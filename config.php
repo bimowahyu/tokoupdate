@@ -1,10 +1,5 @@
 <?php
-/*
-Developed by Habibie
-Email: habibieamrullah@gmail.com 
-WhatsApp: 6287880334339
-WebSite: https://webappdev.my.id
-*/
+
 
 /*
 Step 1 : Create a database, and take a note of your database name
@@ -15,8 +10,8 @@ Step 5 : Run the web, twice for first time, and login to your Admin Panel by acc
 */
 
 //Admin panel credentials
-$username = "admin";
-$password = "admin";
+// $username = "admin";
+// $password = "admin";
 
 
 //Database connection
@@ -30,6 +25,7 @@ $tableconfig = $tableprefix . "config";
 $tableposts = $tableprefix . "posts";
 $tablecategories = $tableprefix . "categories";
 $tablemessages = $tableprefix . "messages";
+$login = $tableprefix . "login";
 
 //Creating tables - config
 mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $tableconfig (
@@ -37,6 +33,14 @@ id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 config VARCHAR(150) NOT NULL,
 value TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 )");
+
+//tblogin
+mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $login (
+	`username` varchar(255) NOT NULL,
+	`password` varchar(255) NOT NULL,
+	`value` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+)");
+
 
 //Creating tables - posts
 mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $tableposts (
@@ -74,11 +78,11 @@ $cfg = new \stdClass();
 $cfg->websitetitle = "Toko Online WA";
 $cfg->maincolor = "#f28433";
 $cfg->secondcolor = "#ffb98a";
-$cfg->about = "<p>Toko online simpel sederhana berbasis WhatsApp.</p>";
+$cfg->about = "<p>Toko onlineku</p>";
 $cfg->language = "id";
 $cfg->logo = "";
 $cfg->adminwhatsapp = "6287880334339";
-$cfg->currencysymbol = "$";
+$cfg->currencysymbol = "Rp";
 $cfg->enablerecentpostsliders = true;
 $cfg->enablefacebookcomment = true;
 $cfg->enablepublishdate = true;

@@ -39,7 +39,8 @@
 		background-color: #4a4a4a;
 		overflow-x: hidden;
 		
-		background: url(images/bgimage.jpg) no-repeat fixed center; 
+		/* background: url(images/bgimage.jpg) no-repeat fixed center;  */
+		background: white;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -282,8 +283,8 @@
 	
 	.footercopyright{
 		font-size: 11px;
-		color: white;
-		background-color: <?php echo $maincolor ?>;
+		color: black;
+		/* background-color: <?php echo $maincolor ?>; */
 		text-align: center;
 	}
 	

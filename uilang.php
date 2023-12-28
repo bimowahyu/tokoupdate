@@ -1,11 +1,5 @@
 <?php
-/*
-Developed by Habibie
-Email: habibieamrullah@gmail.com 
-WhatsApp: 6287880334339
-WebSite: https://webappdev.my.id
-Donate: https://www.paypal.com/paypalme/habibieamrullah
-*/
+
     
     //Bahasa Indonesia
     function translateId(){
@@ -32,7 +26,7 @@ Donate: https://www.paypal.com/paypalme/habibieamrullah
 			"Additional Images" => "Gambar Tambahan",
 			"Address" => "Alamat",
 			"Delivery Address" => "Alamat Pengiriman",
-			"Admin WhatsApp Phone Number" => "Nomor hape Admin dengan WhatsApp aktif",
+			"Admin WhatsApp Phone Number" => "Nomor Hp Admin dengan WhatsApp aktif",
 			"All" => "Semua",
 			"Back" => "Kembali",
 			"Base URL (make sure to include '/' symbol at the end)" => "URL Dasar (pastikan Anda tambahkan simbol '/' di akhir)",
@@ -72,7 +66,7 @@ Donate: https://www.paypal.com/paypalme/habibieamrullah
 			"Logout" => "Keluar",
 			"MORE" => "LIHAT",
 			"Main Color" => "Warna Utama",
-			"Mobile" => "Hape",
+			"Mobile" => "No Hp/Wa",
 			"More in" => "Lainnya di",
 			"More picture(s) has been added." => "Gambar tambahan sudah diunggah.",
 			"More" => "Lebih",
