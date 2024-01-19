@@ -9,11 +9,27 @@ include("uilang.php");
 
 		//if admin logged in
 
+// Jika admin belum login, redirect ke halaman login
 if(!isset($_SESSION['session_username'])){
     header("location:login.php");
     exit();
 }
-			?>	
+
+// Pemeriksaan waktu logout otomatis
+$_SESSION['login_time'] = $_SESSION['login_time'] ?? time();
+$timeout = 5 * 60; // 5 menit dalam detik
+
+if (time() - $_SESSION['login_time'] > $timeout) {
+    // Jika waktu login lebih dari 20 menit, lakukan logout
+    session_unset(); // Membersihkan semua data sesi
+    session_destroy(); // Menghancurkan sesi
+    header("Location: login.php"); // Redirect ke halaman login
+    exit();
+} else {
+    // Perbarui waktu login jika belum lewat 20 menit
+    $_SESSION['login_time'] = time();
+}
+?>	
 
 
 <!DOCTYPE html>
@@ -83,6 +99,7 @@ if(!isset($_SESSION['session_username'])){
 									<a target="_blank" href="<?php echo $baseurl ?>"><img src="<?php echo $currentlogo ?>" style="display: border-box; width: 100%;"></a>
 								</div>
 								<a href="<?php echo $baseurl ?>admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> <?php echo uilang("Home") ?></div></a>
+								<a href="<?php echo $baseurl ?>admin.php?background"><div class="adminleftbaritem"><i class="fa fa-image" style="width: 30px;"></i> <?php echo uilang("Background") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?newpost"><div class="adminleftbaritem"><i class="fa fa-plus" style="width: 30px;"></i> <?php echo uilang("Add Product") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?pictures"><div class="adminleftbaritem"><i class="fa fa-image" style="width: 30px;"></i> <?php echo uilang("Pictures") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> <?php echo uilang("Categories") ?></div></a>
@@ -205,6 +222,86 @@ if(!isset($_SESSION['session_username'])){
 								</script>
 								<?php
 							
+							}
+							//background
+							else if(isset($_GET["background"])){
+								?>
+								<h1><?php echo uilang("Pictures") ?></h1>
+								<?php
+								
+								if(isset($_GET["delete"])){
+									if(file_exists("background/" . $_GET["delete"])){
+										unlink("background/" . $_GET["delete"]);
+										echo "<div class='alert'>" . uilang("A picture has been deleted.") . "</div>";
+									}
+								}
+								
+								if(isset($_POST["submitmorepictures"])){
+									
+									include("thumbnailgenerator.php");
+									
+									$files = array_filter($_FILES['newmorepicture']['name']);
+									$total = count($files);
+									
+									$hasfile = false;
+
+									// Loop through each file
+									for( $i=0 ; $i < $total ; $i++ ) {
+
+										//Get the temp file path
+										$tmpFilePath = $_FILES['newmorepicture']['tmp_name'][$i];
+
+										//Make sure we have a file path
+										if ($tmpFilePath != ""){
+										  
+										  
+											$maxsize = 524288;
+											
+											$extsAllowed = array( 'jpg', 'jpeg', 'png' );
+											$uploadedfile = $_FILES['newmorepicture']['name'][$i];
+											$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
+											if (in_array($extension, $extsAllowed) ) { 
+												$newpicture = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 10);
+												$name = "background/" . $newpicture .".". $extension;
+												
+												if(($_FILES['newmorepicture']['size'][$i] >= $maxsize)){
+													createThumbnail($_FILES['newmorepicture']['tmp_name'][$i], "background/" . $newpicture .".". $extension, 512);
+												}else{
+													$result = move_uploaded_file($_FILES['newmorepicture']['tmp_name'][$i], $name);
+												}
+												
+												$hasfile = true;
+											}
+										}
+									}
+									if($hasfile)
+										echo "<div class='alert'>" . uilang("More picture(s) has been added.") . "</div>";
+								}
+								
+								
+								$dirpath = "background/*";
+								$files = array();
+								$files = glob($dirpath);
+								usort($files, function($x, $y) {
+									return filemtime($x) < filemtime($y);
+								});
+								
+								foreach($files as $item){
+									echo "<div style='display: inline-block; vertical-align: top; text-align: center;'>";
+									echo "<div><img src='" .$baseurl. "/" . $item . "' height='128px' style='margin: 5px; border-radius: 5px; cursor: pointer;' onclick=showimage('" . $item . "')></div>";
+									echo "<a class='textlink' href='?background&delete=" . explode("/", $item)[1] . "'><i class='fa fa-trash'></i> " . uilang("Delete") . "</a></div>";
+								}
+								
+								?>
+								<div style="margin-top: 50px">
+									<form method="post" enctype="multipart/form-data">
+										<label><i class="fa fa-image"></i> <?php echo uilang("Add more picture") ?></label>
+										<input class="fileinput" name="newmorepicture[]" type="file" accept="image/jpeg, image/png" multiple="multiple">
+										<input name = "submitmorepictures" type="submit" value="<?php echo uilang("Submit") ?>" class="submitbutton">
+									</form>
+								</div>
+								<?php
+								
 							}
 							//pictures
 							else if(isset($_GET["pictures"])){
@@ -365,8 +462,17 @@ if(!isset($_SESSION['session_username'])){
 									if(file_exists("pictures/" . $logo))
 										unlink("pictures/" . $logo);
 								}
+								if(isset($_GET["removebackground"])){
+									echo "<div class='alert'>Background has been removed.</div>";
+									mysqli_query($connection, "UPDATE $tableconfig SET value = '' WHERE config = 'background'");
+									//delete previous media
+									if(file_exists("background/" . $background))
+										unlink("background/" . $background);
+								}
 								
 								if(isset($_POST["websitetitle"])){
+
+									//$background = "";
 									
 									$cfg = new \stdClass();
 									$cfg->websitetitle = mysqli_real_escape_string($connection, $_POST["websitetitle"]);
@@ -376,6 +482,7 @@ if(!isset($_SESSION['session_username'])){
 									$cfg->language = mysqli_real_escape_string($connection, $_POST["language"]);
 									$cfg->thumbnailmode = mysqli_real_escape_string($connection, $_POST["thumbnailmode"]);
 									$cfg->logo = $logo;
+									$cfg->background = $background;
 									$cfg->adminwhatsapp = mysqli_real_escape_string($connection, $_POST["adminwhatsapp"]);
 									$cfg->currencysymbol = mysqli_real_escape_string($connection, $_POST["currencysymbol"]);
 									$cfg->baseurl = mysqli_real_escape_string($connection, $_POST["baseurl"]);
@@ -466,8 +573,11 @@ if(!isset($_SESSION['session_username'])){
 									}, 1000);
 									</script>
 									<?php
-								}
 								
+									
+										
+								}
+							
 								?>
 								<form method="post" enctype="multipart/form-data">
 								
@@ -564,6 +674,51 @@ if(!isset($_SESSION['session_username'])){
 											<option value=1 selected><?php echo uilang("Yes") ?></option>
 											<?php
 										}else{
+											?>
+											<option value=0 selected><?php echo uilang("No") ?></option>
+											<option value=1><?php echo uilang("Yes") ?></option>
+											<?php
+										}
+										?>
+									</select>
+									<!--background-->
+									<!-- <label><i class="fa fa-check-circle"></i> Background</label>
+									<?php
+									if(isset($cfg->background)) {
+										if($cfg->background == ""){
+											?>
+											<div style="display: inline-block; vertical-align: middle;">
+												<img src="images/logo.png" width="64">
+											</div>
+											<?php
+										} else {
+											?>
+											<div style="display: inline-block; text-align: center; vertical-align: middle;">
+												<img src="pictures/<?php echo $cfg->background ?>" width="64"><br>
+												<a href="<?php echo $baseurl ?>admin.php?settings&removebackground" class="textlink"><i class="fa fa-trash"></i> Remove</a>
+											</div>
+											<?php
+										}
+									} else {
+										// Handle jika properti tidak terdefinisi
+										echo "Property 'background' is not defined in \$cfg object.";
+									}
+									?>
+									<input name="newpicture" type="file" name="background" style="display: inline-block; width: 300px; vertical-align: middle;">
+									<br> -->
+
+									<label><i class="fa fa-globe"></i> <?php echo uilang("Website Icon (.ico file)") ?></label>
+									<input type="file" name="favicon">
+
+									<label><i class="fa fa-calendar"></i> <?php echo uilang("Enable Publish Date?") ?></label>
+									<select name="enablepublishdate">
+										<?php 
+										if($enablepublishdate){
+											?>
+											<option value=0><?php echo uilang("No") ?></option>
+											<option value=1 selected><?php echo uilang("Yes") ?></option>
+											<?php
+										} else {
 											?>
 											<option value=0 selected><?php echo uilang("No") ?></option>
 											<option value=1><?php echo uilang("Yes") ?></option>
@@ -1014,12 +1169,28 @@ if(!isset($_SESSION['session_username'])){
 		
 		
 		//log out
+		// if(isset($_GET["logout"])) {
+		// 	session_start(); // Mulai sesi jika belum dimulai
+		// 	var_dump($_SESSION);
+		// 	$error_message = "";
+		// 	if ($error_condition) {
+		// 		$error_message = "error...";
+		// 	}
+		
+		// 	session_destroy(); // Hapus sesi
+		// 	echo "Bye!";
+		// 	// Lakukan redirect ke halaman admin setelah echo "Bye!"
+		// 	echo "<script>location.href='admin.php'</script>";
+		// 	exit(); // Pastikan keluar dari skrip setelah melakukan redirect
+		//}
 		if(isset($_GET["logout"])){
 			session_destroy();
 			echo "Bye!";
-			echo "<script>location.href='" .$baseurl. "admin.php'</script>";
+			echo "<script>location.href='" .$baseurl. "login.php'</script>";
 		}
 		?>
+		
+		
 		
 		<script>
 			setTimeout(function(){
@@ -1031,5 +1202,11 @@ if(!isset($_SESSION['session_username'])){
 			}
 			
 		</script>
+			<script>
+			window.addEventListener('unload', function (event) {
+				navigator.sendBeacon('logout.php', ''); // Melakukan logout menggunakan sendBeacon
+			});
+		</script>
+
 	</body>
 </html>

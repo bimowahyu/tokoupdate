@@ -602,7 +602,7 @@
 	}
 	
 	.cartbuttoncircle{
-		width: 96px; height: 96px;
+		width: 70px; height: 60px;
 	}
 	
 	.loginform{

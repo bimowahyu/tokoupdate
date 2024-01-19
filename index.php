@@ -62,13 +62,40 @@ if($websitetitle == ""){
 			<link rel="stylesheet" type="text/css" href="<?php echo $baseurl ?>slick/slick-theme.css"/>
 			<script type="text/javascript" src="<?php echo $baseurl ?>slick/slick.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="<?php echo $baseurl ?>sharingbuttons.css"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+<!--========== BOX ICONS ==========-->
+<link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="assets/css/styles.css">
 			<?php include("style.php"); ?>
 			<script src="<?php echo $baseurl ?>somefunctions.js"></script>
+			<style>
+    /* Gaya tambahan untuk menyesuaikan tinggi tombol */
+    .inlinecenterblock form {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .inlinecenterblock input,
+    .inlinecenterblock button {
+        height: 100%;
+    }
+</style>
 		</head>
 		<body>
-			<div id="header">
-				<div>
-					<div class="inlinecenterblock">
+		<a href="#" class="scrolltop" id="scroll-top">
+            <i class='bx bx-chevron-up scrolltop__icon'></i>
+        </a>
+
+        <!--========== HEADER ==========-->
+        <header class="l-header" id="header1">
+            <nav class="nav bd-container">
+			<div class="inlinecenterblock">
 						<div>
 							<?php
 							$currentlogo = "images/logo.png";
@@ -78,28 +105,117 @@ if($websitetitle == ""){
 							<a href="<?php echo $baseurl ?>"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 64px;"></a>
 						</div>
 						
+						
 					</div>
 					
-					<div class="inlinecenterblock">
-						<h1 style="margin: 0px; font-size: 30px; color: <?php echo $maincolor ?>; font-weight: bold;"><a href="<?php echo $baseurl ?>"><?php echo $websitetitle ?></a></h1>
-						<div style="font-size: 13px;"><?php echo $about ?></div>
-					</div>
-					
-					<div class="inlinecenterblock floatright">
-						<div style="border-radius: 50px; display: table; box-sizing: border-box; width: 100%; border: 2px solid <?php echo $maincolor ?>;">
-							<div style="display: table-cell; width: 50px; text-align: center;">
+
+					<!-- <div class="nav__menu" id="nav-menu"> -->
+				<ul class="nav__list">
+					<li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+					<li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+					<li class="nav__item"><a href="#product" class="nav__link">Shop</a></li>
+
+					<li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+					<li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
+				</ul>
+				<div class="inlinecenterblock floatright">
+						<form class="d-flex" role="search" onsubmit="submitSearch(event)">
+							<input
+								<?php if(isset($_GET["post"])){ ?> onkeyup="searchonhomepage()" <?php } else { ?> onkeyup="quicksearch()" <?php } ?>
+								id="quicksearch"
+								class="form-control me-2"
+								type="search"
+								placeholder="<?php echo uilang("Search") ?>..."
+								aria-label="Search"
+							>
+							<button class="btn btn-outline-success" type="submit">
 								<i class="fa fa-search"></i>
-							</div>
-							<div style="display: table-cell">
-								<input <?php if(isset($_GET["post"])){ ?> onkeyup="searchonhomepage()" <?php } else { ?> onkeyup="quicksearch()" <?php } ?> id="quicksearch" placeholder="<?php echo uilang("Search") ?>..." style="border: none; background-color: inherit; outline: none; margin: 0px; padding: 10px;">
-							</div>
-							<div style="display: table-cell; width: 50px; text-align: center; cursor: pointer;" onclick="clearSearchInput()">
-								<i class="fa fa-times-circle"></i>
-							</div>
-						</div>
+							</button>
+						</form>
 					</div>
+
+					<script>
+						function quicksearch() {
+							// Mendapatkan nilai input pencarian
+							var searchInput = document.getElementById('quicksearch').value;
+
+							// Melakukan sesuatu dengan nilai input, misalnya memproses pencarian atau mengirimkan permintaan AJAX
+							// Disesuaikan dengan kebutuhan Anda
+							console.log('Pencarian: ' + searchInput);
+						}
+
+						function clearSearchInput() {
+							// Mengosongkan nilai input pencarian
+							document.getElementById('quicksearch').value = '';
+
+							// Memanggil fungsi pencarian kembali jika diperlukan
+							quicksearch();
+						}
+
+						function submitSearch(event) {
+							// Mencegah formulir untuk melakukan submit yang default
+							event.preventDefault();
+
+							// Memanggil fungsi pencarian dengan input yang telah dimasukkan
+							quicksearch();
+						}
+					</script>
+					
+				
+</div>
+
+					<div class="nav__toggle" id="nav-toggle">
+						<i class='bx bx-menu'></i>
+					</div>
+            </nav>
+        </header>
+
+        <main class="l-main">
+            <!--========== HOME ==========-->
+			<section class="home" id="home">
+				<div class="home__container bd-container bd-grid">
+					<div class="home__data">
+						<div class="inlinecenterblock">
+							<h1 style="margin: 0px; font-size: 30px; color: <?php echo $maincolor ?>; font-weight: bold;">
+								<a href="<?php echo $baseurl ?>"><?php echo $websitetitle ?></a>
+							</h1>
+							<div style="font-size: 13px;"></div>
+						</div>
+						<h2 class="home__subtitle"><?php echo $about ?></h2>
+						<a href="#product" class="button">View Product</a>
+						</div>
+						<?php
+								$currentbackground = "background/logo.png";
+								if($background != "")
+									$currentbackground = "background/" . $background;
+									// echo "Nilai \$background: $background";
+								?>
+						<img src="<?php echo $background ?>" class="home__img">
+						<!-- <img src="images/baju.jpeg" class="home__img"> -->
+						
+				</div>
+			</section>
+            
+            <!--========== ABOUT ==========-->
+            <section class="about section bd-container" id="about">
+                <div class="about__container  bd-grid">
+                    <div class="about__data">
+                        <span class="section-subtitle about__initial">About us</span>
+                        <h2 class="section-title about__initial">We cook the best <br> tasty food</h2>
+                        <p class="about__description">We cook the best food in the entire city, with excellent customer service, the best meals and at the best price, visit us.</p>
+                        <a href="#" class="button">Explore history</a>
+                    </div>
+
+                    <img src="assets/img/about.jpg" alt="" class="about__img">
+                </div>
+            </section>
+			<div id="header">
+				<div>
+					
+					
 				</div>
 			</div>
+			<!--membuat tampilan website tersendiri-->
 			
 			<?php
 			
@@ -164,7 +280,7 @@ if($websitetitle == ""){
 											<div id="productpic" style="background-image: url(<?php echo $picture ?>); background-attachment: fill; background-position: center; background-repeat: no-repeat; background-size: auto 100%;"></div>
 											-->
 											<div>
-												<img src="<?php echo $picture ?>" style="cursor: pointer; width: 100%; border-radius: 5px;" <?php if($row["picture"] != "") { ?>onclick="showimage('pictures/<?php echo $row["picture"] ?>')"<?php } ?>>
+												<img src="<?php echo $picture ?>" style="cursor: pointer; width: 100%; border-radius: 5px;" <?php if($row["picture"] != "") { ?>onclick="showimage('pictures/<?php echo $row["picture"] ?>')"<?php } ?>
 											</div>
 											<div id="moreimages">
 												<?php
@@ -184,6 +300,7 @@ if($websitetitle == ""){
 										<div class="producthalfbox">
 											
 											<?php
+											$stok = $row["stok"];
 											$saleprice = $row["normalprice"];
 											$oldprice = "";
 											if($row["discountprice"] != 0){
@@ -193,6 +310,7 @@ if($websitetitle == ""){
 											?>
 											
 											<h1><?php echo $row["title"] ?> <i class="fa fa-angle-double-right"></i> <?php echo $oldprice . $currencysymbol . number_format($saleprice, $deccount) ?></h1>
+											
 											
 											<div>
 												<?php echo $row["content"] ?>
@@ -422,7 +540,7 @@ if($websitetitle == ""){
 				if($enablerecentpostsliders){
 					?>
 					
-					<div class="section firstthreecontainer">
+					<!-- <div class="section firstthreecontainer">
 						<div id="firstthree">
 							<?php
 							$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 3";
@@ -460,12 +578,12 @@ if($websitetitle == ""){
 							
 							?>
 						</div>
-					</div>
+					</div> -->
 					<?php
 				}
 				?>
 				
-				<div class="section gridcontainerunscrollable">
+				<div class="section gridcontainerunscrollable" id="product">
 					<?php
 					$sql = "SELECT * FROM $tableposts ORDER BY id DESC";
 					$result = mysqli_query($connection, $sql);

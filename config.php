@@ -81,6 +81,7 @@ $cfg->secondcolor = "#ffb98a";
 $cfg->about = "<p>Toko onlineku</p>";
 $cfg->language = "id";
 $cfg->logo = "";
+$cfg->background = "";
 $cfg->adminwhatsapp = "6287880334339";
 $cfg->currencysymbol = "Rp";
 $cfg->enablerecentpostsliders = true;
@@ -102,33 +103,73 @@ $sql = "SELECT * FROM $tableconfig";
 $result = mysqli_query($connection, $sql);
 
 //Check if its blank
+// if(mysqli_num_rows($result) == 0){
+// 	//Then generate default values
+// 	mysqli_query($connection, $sql = "INSERT INTO $tableconfig (config, value) VALUES ('cfg', '$JSONcfg')");
+// }else{
+// 	//Then load the website configurations
+// 	while($row = mysqli_fetch_assoc($result)){
+// 		$cfg = json_decode($row["value"]);
+
+// 		if (property_exists($cfg, 'background')) {
+// 			$background = $cfg->background;
+// 		} else {
+// 			$background = ""; // atau Anda bisa menetapkan nilai default sesuai kebutuhan Anda
+// 		}
+
+// 		$websitetitle = stripslashes($cfg->websitetitle);
+// 		$maincolor = $cfg->maincolor;
+// 		$secondcolor = $cfg->secondcolor;
+// 		$about = stripslashes($cfg->about);
+// 		$language = $cfg->language;
+// 		$logo = $cfg->logo;
+		
+
+// 		$adminwhatsapp = $cfg->adminwhatsapp;
+// 		$currencysymbol = str_replace("u20b9", "₹", $cfg->currencysymbol);
+// 		$baseurl = $cfg->baseurl;
+// 		$enablerecentpostsliders = $cfg->enablerecentpostsliders;
+// 		if(isset($cfg->sharebuttonsoption))
+// 			$sharebuttonsoption = $cfg->sharebuttonsoption;
+// 		else 
+// 			$sharebuttonsoption = array();
+// 		$enablefacebookcomment = $cfg->enablefacebookcomment;
+// 		$enablepublishdate = $cfg->enablepublishdate;
+// 		$thumbnailmode = $cfg->thumbnailmode;
+// 		$disabledecimals = $cfg->disabledecimals;
+// 	}
+// 	if (!isset($background)) {
+// 		$background = "";
+// 	}
+//}
 if(mysqli_num_rows($result) == 0){
 	//Then generate default values
 	mysqli_query($connection, $sql = "INSERT INTO $tableconfig (config, value) VALUES ('cfg', '$JSONcfg')");
-}else{
+} else {
 	//Then load the website configurations
 	while($row = mysqli_fetch_assoc($result)){
 		$cfg = json_decode($row["value"]);
-		$websitetitle = stripslashes($cfg->websitetitle);
-		$maincolor = $cfg->maincolor;
-		$secondcolor = $cfg->secondcolor;
-		$about = stripslashes($cfg->about);
-		$language = $cfg->language;
-		$logo = $cfg->logo;
-		$adminwhatsapp = $cfg->adminwhatsapp;
-		$currencysymbol = str_replace("u20b9", "₹", $cfg->currencysymbol);
-		$baseurl = $cfg->baseurl;
-		$enablerecentpostsliders = $cfg->enablerecentpostsliders;
-		if(isset($cfg->sharebuttonsoption))
-			$sharebuttonsoption = $cfg->sharebuttonsoption;
-		else 
-			$sharebuttonsoption = array();
-		$enablefacebookcomment = $cfg->enablefacebookcomment;
-		$enablepublishdate = $cfg->enablepublishdate;
-		$thumbnailmode = $cfg->thumbnailmode;
-		$disabledecimals = $cfg->disabledecimals;
+
+		// Tentukan nilai default untuk setiap properti jika properti tersebut tidak ada
+		$background = property_exists($cfg, 'background') ? $cfg->background : "";
+		$websitetitle = property_exists($cfg, 'websitetitle') ? stripslashes($cfg->websitetitle) : "";
+		$maincolor = property_exists($cfg, 'maincolor') ? $cfg->maincolor : "";
+		$secondcolor = property_exists($cfg, 'secondcolor') ? $cfg->secondcolor : "";
+		$about = property_exists($cfg, 'about') ? stripslashes($cfg->about) : "";
+		$language = property_exists($cfg, 'language') ? $cfg->language : "";
+		$logo = property_exists($cfg, 'logo') ? $cfg->logo : "";
+		$adminwhatsapp = property_exists($cfg, 'adminwhatsapp') ? $cfg->adminwhatsapp : "";
+		$currencysymbol = property_exists($cfg, 'currencysymbol') ? str_replace("u20b9", "₹", $cfg->currencysymbol) : "";
+		$baseurl = property_exists($cfg, 'baseurl') ? $cfg->baseurl : "";
+		$enablerecentpostsliders = property_exists($cfg, 'enablerecentpostsliders') ? $cfg->enablerecentpostsliders : "";
+		$sharebuttonsoption = property_exists($cfg, 'sharebuttonsoption') ? $cfg->sharebuttonsoption : array();
+		$enablefacebookcomment = property_exists($cfg, 'enablefacebookcomment') ? $cfg->enablefacebookcomment : "";
+		$enablepublishdate = property_exists($cfg, 'enablepublishdate') ? $cfg->enablepublishdate : "";
+		$thumbnailmode = property_exists($cfg, 'thumbnailmode') ? $cfg->thumbnailmode : "";
+		$disabledecimals = property_exists($cfg, 'disabledecimals') ? $cfg->disabledecimals : "";
 	}
 }
+
 
 //Creating pictures folder
 if(!file_exists("pictures"))

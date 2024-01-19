@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Des 2023 pada 16.50
+-- Waktu pembuatan: 19 Jan 2024 pada 19.14
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -37,7 +37,9 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`username`, `password`) VALUES
-('admin', '21232f297a57a5a743894a0e4a801fc3');
+('admin', '21232f297a57a5a743894a0e4a801fc3'),
+('admin1', '827ccb0eea8a706c4c34a16891f84e7b'),
+('admin2', '827ccb0eea8a706c4c34a16891f84e7b');
 
 -- --------------------------------------------------------
 
@@ -76,7 +78,7 @@ CREATE TABLE `tabeltokoconfig` (
 --
 
 INSERT INTO `tabeltokoconfig` (`id`, `config`, `value`) VALUES
-(1, 'cfg', '{\"websitetitle\":\"Toko Online WA\",\"maincolor\":\"#0DF2E0\",\"secondcolor\":\"#0AFFE4\",\"about\":\"<p>Toko</p>\",\"language\":\"id\",\"thumbnailmode\":\"0\",\"logo\":\"whdgcgskz6.png\",\"adminwhatsapp\":\"085161671965\",\"currencysymbol\":\"Rp\",\"baseurl\":\"http://localhost/WhatsUpShop/\",\"enablerecentpostsliders\":\"1\",\"enablefacebookcomment\":\"1\",\"enablepublishdate\":\"1\",\"disabledecimals\":\"1\"}');
+(1, 'cfg', '{\"websitetitle\":\"Toko Online WA\",\"maincolor\":\"#0DF2E0\",\"secondcolor\":\"#0AFFE4\",\"about\":\"<p>Toko online belanja melalui wa<\\/p>\",\"language\":\"id\",\"thumbnailmode\":\"0\",\"logo\":\"4u9cdtxp31.png\",\"background\":\"fi8wlb0uc0.jpeg\",\"adminwhatsapp\":\"085161671965\",\"currencysymbol\":\"Rp\",\"baseurl\":\"http:\\/\\/localhost\\/WhatsUpShop\\/\",\"enablerecentpostsliders\":\"1\",\"enablefacebookcomment\":\"1\",\"enablepublishdate\":\"1\",\"disabledecimals\":\"1\"}');
 
 -- --------------------------------------------------------
 
@@ -126,21 +128,17 @@ CREATE TABLE `tabeltokoposts` (
   `options` varchar(200) NOT NULL,
   `picture` varchar(300) NOT NULL,
   `moreimages` text NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `stok` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tabeltokoposts`
 --
 
-INSERT INTO `tabeltokoposts` (`id`, `postid`, `catid`, `normalprice`, `discountprice`, `title`, `time`, `options`, `picture`, `moreimages`, `content`) VALUES
-(1, 'yekowtkqkg', 1, 230000, 0, 'Sepatu ventela', '1703690502193', '', 'n9nsq2slpm.jpeg', '', '<p>Sepatu ventela 70s warna hitam</p>'),
-(2, 'ifzwdfziji', 1, 250000, 0, 'Sepatu ventela', '1703690531098', '', 'n0uezefr31.jpeg', '', '<p>Sepatu ventela ukuran 38-43</p>'),
-(3, 'kypoydwmwl', 1, 70000, 0, 'Sepatu sneakers', '1703690572036', '', '6cjo3d84de.jpeg', '', '<p>Sepatu sneakers warna putih uk 38-43</p>'),
-(4, 'fuxjcweval', 4, 100000, 0, 'kemeja', '1703691018895', '', 'fu6svlrqmh.jpeg', '', '<p>Baju kemeja lengan panjang uk 38-43</p>'),
-(5, 'wmacnhfqeg', 4, 35000, 0, 'Baju polos', '1703691059019', '', 'xslvo1cvkf.jpeg', '', '<p>Baju polos dengan lengan pendek ukuran m-xl</p>'),
-(6, 'jsgrlvabfk', 2, 85000, 0, 'celana chinos berbagai warna', '1703691097956', '', 'yi7rs7uf4e.jpeg', '', '<p>Celana panjang chinos ukuran 28-38</p>'),
-(7, 'bzwqukbtuy', 2, 150000, 0, 'celana kargo', '1703691126651', '', 'l0jcl92h7v.jpeg', '', '<p>Celana kargo pria</p>');
+INSERT INTO `tabeltokoposts` (`id`, `postid`, `catid`, `normalprice`, `discountprice`, `title`, `time`, `options`, `picture`, `moreimages`, `content`, `stok`) VALUES
+(1, 'mamfrjalsw', 1, 80000, 0, 'Sepatu ventela 1', '1703777037878', '', 'rkmyjqkgp1.jpeg', '', '<p>p</p>', 1),
+(2, 'pvbehzsang', 4, 10000, 0, 'Baju polos', '1703777057158', '', '9tcadpfdoz.jpeg', '', '<p>p</p>', 12);
 
 --
 -- Indexes for dumped tables
@@ -202,7 +200,7 @@ ALTER TABLE `tabeltokomessages`
 -- AUTO_INCREMENT untuk tabel `tabeltokoposts`
 --
 ALTER TABLE `tabeltokoposts`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
