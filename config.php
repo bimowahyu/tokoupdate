@@ -79,6 +79,8 @@ $cfg->websitetitle = "Toko Online WA";
 $cfg->maincolor = "#f28433";
 $cfg->secondcolor = "#ffb98a";
 $cfg->about = "<p>Toko onlineku</p>";
+$cfg->about2 = "toko online berbagai macam";
+$cfg->about3 = "toko online berbagai macam";
 $cfg->language = "id";
 $cfg->logo = "";
 $cfg->background = "";
@@ -156,6 +158,8 @@ if(mysqli_num_rows($result) == 0){
 		$maincolor = property_exists($cfg, 'maincolor') ? $cfg->maincolor : "";
 		$secondcolor = property_exists($cfg, 'secondcolor') ? $cfg->secondcolor : "";
 		$about = property_exists($cfg, 'about') ? stripslashes($cfg->about) : "";
+		$about2 = property_exists($cfg, 'about2') ? stripslashes($cfg->about2) : "";
+		$about3 = property_exists($cfg, 'about3') ? stripslashes($cfg->about3) : "";
 		$language = property_exists($cfg, 'language') ? $cfg->language : "";
 		$logo = property_exists($cfg, 'logo') ? $cfg->logo : "";
 		$adminwhatsapp = property_exists($cfg, 'adminwhatsapp') ? $cfg->adminwhatsapp : "";

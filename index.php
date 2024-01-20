@@ -54,6 +54,8 @@ if($websitetitle == ""){
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 			<link rel="shortcut icon" href="<?php echo $baseurl ?>favicon.ico" type="image/x-icon">
 			<link rel="icon" href="<?php echo $baseurl ?>favicon.ico" type="image/x-icon">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 			
 			<script src="jquery.min.js"></script>
 			<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
@@ -97,12 +99,12 @@ if($websitetitle == ""){
             <nav class="nav bd-container">
 			<div class="inlinecenterblock">
 						<div>
-							<?php
+							<!-- <?php
 							$currentlogo = "images/logo.png";
 							if($logo != "")
 								$currentlogo = "pictures/" . $logo;
 							?>
-							<a href="<?php echo $baseurl ?>"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 64px;"></a>
+							<a href="<?php echo $baseurl ?>"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 64px;"></a> -->
 						</div>
 						
 						
@@ -114,11 +116,11 @@ if($websitetitle == ""){
 					<li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
 					<li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 					<li class="nav__item"><a href="#product" class="nav__link">Shop</a></li>
-
 					<li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
-					<li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
-				</ul>
-				<div class="inlinecenterblock floatright">
+					<!-- <li><i class='bx bx-moon change-theme' id="theme-button"></i></li> -->
+					</ul>
+					<div class="nav__list">
+				<div class="inlinecenterblock floatright" >
 						<form class="d-flex" role="search" onsubmit="submitSearch(event)">
 							<input
 								<?php if(isset($_GET["post"])){ ?> onkeyup="searchonhomepage()" <?php } else { ?> onkeyup="quicksearch()" <?php } ?>
@@ -132,7 +134,16 @@ if($websitetitle == ""){
 								<i class="fa fa-search"></i>
 							</button>
 						</form>
+						
 					</div>
+					</div>
+					
+
+					<div class="nav__toggle" id="nav-toggle">
+						<i class='bx bx-menu'></i>
+					</div>
+            </nav>
+        </header>
 
 					<script>
 						function quicksearch() {
@@ -160,15 +171,17 @@ if($websitetitle == ""){
 							quicksearch();
 						}
 					</script>
+					<script>
+					document.getElementById('nav-toggle').addEventListener('click', function () {
+						var navList = document.querySelector('.nav__list');
+						var navSearch = document.querySelector('.nav__search');
+						navList.classList.toggle('active');
+						navSearch.classList.toggle('active');
+					});
+					</script>
 					
 				
-</div>
-
-					<div class="nav__toggle" id="nav-toggle">
-						<i class='bx bx-menu'></i>
-					</div>
-            </nav>
-        </header>
+					
 
         <main class="l-main">
             <!--========== HOME ==========-->
@@ -185,12 +198,11 @@ if($websitetitle == ""){
 						<a href="#product" class="button">View Product</a>
 						</div>
 						<?php
-								$currentbackground = "background/logo.png";
-								if($background != "")
-									$currentbackground = "background/" . $background;
-									// echo "Nilai \$background: $background";
-								?>
-						<img src="<?php echo $background ?>" class="home__img">
+							$currentlogo = "images/logo.png";
+							if($logo != "")
+								$currentlogo = "pictures/" . $logo;
+							?>
+							<img src="<?php echo $baseurl . $currentlogo ?>" class="home__img">
 						<!-- <img src="images/baju.jpeg" class="home__img"> -->
 						
 				</div>
@@ -201,12 +213,19 @@ if($websitetitle == ""){
                 <div class="about__container  bd-grid">
                     <div class="about__data">
                         <span class="section-subtitle about__initial">About us</span>
-                        <h2 class="section-title about__initial">We cook the best <br> tasty food</h2>
-                        <p class="about__description">We cook the best food in the entire city, with excellent customer service, the best meals and at the best price, visit us.</p>
+                        <h2 class="section-title about__initial"><?php echo $about3 ?></h2>
+                        <p class="about__description"><?php echo $about2 ?></p>
                         <a href="#" class="button">Explore history</a>
                     </div>
 
-                    <img src="assets/img/about.jpg" alt="" class="about__img">
+					<?php
+								$currentbackground = "background/logo.png";
+								if($background != "")
+									$currentbackground = "background/" . $background;
+									// echo "Nilai \$background: $background";
+								?>
+								<!-- <a href="<?php echo $baseurl ?>"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 64px;"></a> -->
+						<img src="<?php echo $baseurl . $currentbackground ?>" class="about__img">
                 </div>
             </section>
 			<div id="header">
@@ -945,6 +964,10 @@ if($websitetitle == ""){
 				   }
 				}
 			</script>
+			 <script src="https://unpkg.com/scrollreveal"></script>
+
+<!--========== MAIN JS ==========-->
+<script src="assets/js/main.js"></script>
 		</body>
 	</html>
 	

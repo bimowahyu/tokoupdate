@@ -20,13 +20,13 @@ $_SESSION['login_time'] = $_SESSION['login_time'] ?? time();
 $timeout = 5 * 60; // 5 menit dalam detik
 
 if (time() - $_SESSION['login_time'] > $timeout) {
-    // Jika waktu login lebih dari 20 menit, lakukan logout
+    // Jika waktu login lebih dari 5 menit, lakukan logout
     session_unset(); // Membersihkan semua data sesi
     session_destroy(); // Menghancurkan sesi
     header("Location: login.php"); // Redirect ke halaman login
     exit();
 } else {
-    // Perbarui waktu login jika belum lewat 20 menit
+    // Perbarui waktu login jika belum lewat 5 menit
     $_SESSION['login_time'] = time();
 }
 ?>	
@@ -99,7 +99,7 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 									<a target="_blank" href="<?php echo $baseurl ?>"><img src="<?php echo $currentlogo ?>" style="display: border-box; width: 100%;"></a>
 								</div>
 								<a href="<?php echo $baseurl ?>admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> <?php echo uilang("Home") ?></div></a>
-								<a href="<?php echo $baseurl ?>admin.php?background"><div class="adminleftbaritem"><i class="fa fa-image" style="width: 30px;"></i> <?php echo uilang("Background") ?></div></a>
+			
 								<a href="<?php echo $baseurl ?>admin.php?newpost"><div class="adminleftbaritem"><i class="fa fa-plus" style="width: 30px;"></i> <?php echo uilang("Add Product") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?pictures"><div class="adminleftbaritem"><i class="fa fa-image" style="width: 30px;"></i> <?php echo uilang("Pictures") ?></div></a>
 								<a href="<?php echo $baseurl ?>admin.php?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> <?php echo uilang("Categories") ?></div></a>
@@ -223,86 +223,7 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 								<?php
 							
 							}
-							//background
-							else if(isset($_GET["background"])){
-								?>
-								<h1><?php echo uilang("Pictures") ?></h1>
-								<?php
-								
-								if(isset($_GET["delete"])){
-									if(file_exists("background/" . $_GET["delete"])){
-										unlink("background/" . $_GET["delete"]);
-										echo "<div class='alert'>" . uilang("A picture has been deleted.") . "</div>";
-									}
-								}
-								
-								if(isset($_POST["submitmorepictures"])){
-									
-									include("thumbnailgenerator.php");
-									
-									$files = array_filter($_FILES['newmorepicture']['name']);
-									$total = count($files);
-									
-									$hasfile = false;
-
-									// Loop through each file
-									for( $i=0 ; $i < $total ; $i++ ) {
-
-										//Get the temp file path
-										$tmpFilePath = $_FILES['newmorepicture']['tmp_name'][$i];
-
-										//Make sure we have a file path
-										if ($tmpFilePath != ""){
-										  
-										  
-											$maxsize = 524288;
-											
-											$extsAllowed = array( 'jpg', 'jpeg', 'png' );
-											$uploadedfile = $_FILES['newmorepicture']['name'][$i];
-											$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
-											if (in_array($extension, $extsAllowed) ) { 
-												$newpicture = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 10);
-												$name = "background/" . $newpicture .".". $extension;
-												
-												if(($_FILES['newmorepicture']['size'][$i] >= $maxsize)){
-													createThumbnail($_FILES['newmorepicture']['tmp_name'][$i], "background/" . $newpicture .".". $extension, 512);
-												}else{
-													$result = move_uploaded_file($_FILES['newmorepicture']['tmp_name'][$i], $name);
-												}
-												
-												$hasfile = true;
-											}
-										}
-									}
-									if($hasfile)
-										echo "<div class='alert'>" . uilang("More picture(s) has been added.") . "</div>";
-								}
-								
-								
-								$dirpath = "background/*";
-								$files = array();
-								$files = glob($dirpath);
-								usort($files, function($x, $y) {
-									return filemtime($x) < filemtime($y);
-								});
-								
-								foreach($files as $item){
-									echo "<div style='display: inline-block; vertical-align: top; text-align: center;'>";
-									echo "<div><img src='" .$baseurl. "/" . $item . "' height='128px' style='margin: 5px; border-radius: 5px; cursor: pointer;' onclick=showimage('" . $item . "')></div>";
-									echo "<a class='textlink' href='?background&delete=" . explode("/", $item)[1] . "'><i class='fa fa-trash'></i> " . uilang("Delete") . "</a></div>";
-								}
-								
-								?>
-								<div style="margin-top: 50px">
-									<form method="post" enctype="multipart/form-data">
-										<label><i class="fa fa-image"></i> <?php echo uilang("Add more picture") ?></label>
-										<input class="fileinput" name="newmorepicture[]" type="file" accept="image/jpeg, image/png" multiple="multiple">
-										<input name = "submitmorepictures" type="submit" value="<?php echo uilang("Submit") ?>" class="submitbutton">
-									</form>
-								</div>
-								<?php
-								
-							}
+							
 							//pictures
 							else if(isset($_GET["pictures"])){
 								?>
@@ -479,6 +400,8 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 									$cfg->maincolor = mysqli_real_escape_string($connection, $_POST["maincolor"]);
 									$cfg->secondcolor = mysqli_real_escape_string($connection, $_POST["secondcolor"]);
 									$cfg->about = $_POST["about"];
+									$cfg->about2 = isset($_POST["about2"]) ? $_POST["about2"] : '';
+									$cfg->about3 = isset($_POST["about3"]) ? $_POST["about3"] : '';
 									$cfg->language = mysqli_real_escape_string($connection, $_POST["language"]);
 									$cfg->thumbnailmode = mysqli_real_escape_string($connection, $_POST["thumbnailmode"]);
 									$cfg->logo = $logo;
@@ -573,6 +496,63 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 									}, 1000);
 									</script>
 									<?php
+									//Background
+									if(isset($_FILES["background"])){
+										$maxsize = 524288;
+										if($_FILES["background"]["size"] == 0){
+											//
+										}else{
+											if($_FILES['background']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
+											$extsAllowed = array( 'jpg', 'jpeg', 'png' );
+											$uploadedfile = $_FILES["background"]["name"];
+											$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
+											if (in_array($extension, $extsAllowed) ) { 
+												$newpicture = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 10);
+												$name = "background/" . $newpicture .".". $extension;
+												
+												if(($_FILES['background']['size'] >= $maxsize)){
+													createThumbnail($_FILES['background']['tmp_name'], "background/" . $newpicture .".". $extension, 512);
+												}else{
+													$result = move_uploaded_file($_FILES['background']['tmp_name'], $name);
+												}
+												?>
+												
+												<div class="alert"><?php echo uilang("Logo upload is OK") ?>.</div>
+												<?php
+												$newpicture = $newpicture .".". $extension;
+												
+												/*
+												if($logo != ""){
+													//delete previous media
+													if(file_exists("pictures/" . $logo)){
+														unlink("pictures/" . $logo);
+													}
+												}
+												*/
+												
+												$background = $newpicture;
+												
+												$sql = "SELECT * FROM $tableconfig WHERE config = 'cfg'";
+												$result = mysqli_query($connection, $sql);
+												$row = mysqli_fetch_assoc($result)["value"];
+												$cfg = json_decode($row);
+												
+												$cfg->background = $background;
+												$JSONcfg = json_encode($cfg);
+												
+												mysqli_query($connection, "UPDATE $tableconfig SET value = '$JSONcfg' WHERE config = 'cfg'");
+												
+											} else { echo "<div class='alert'>" .uilang("File is not valid. Please try again"). ".</div>"; }
+										}
+									}
+									echo "<div class='alert'>" .uilang("Settings updated!"). "</div>";
+									?>
+									<script>
+									setTimeout(function(){
+										location.href = "?settings";
+									}, 1000);
+									</script>
+									<?php
 								
 									
 										
@@ -615,6 +595,12 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 									
 									<label><i class="fa fa-info"></i> <?php echo uilang("About") ?></label>
 									<textarea placeholder="<?php echo uilang("About") ?>" name="about"><?php echo stripslashes($cfg->about) ?></textarea>
+
+									<label><i class="fa fa-info"></i>Rincian toko</label>
+									<textarea placeholder="<?php echo uilang("About slide 2") ?>" name="about2"><?php echo isset($cfg->about2) ? stripslashes($cfg->about2) : ''; ?></textarea>
+
+									<label><i class="fa fa-info"></i>Tentag toko</label>
+									<textarea placeholder="Masukan tentang toko" name="about3"><?php echo isset($cfg->about3) ? stripslashes($cfg->about3) : ''; ?></textarea>
 									<br>
 									
 									<label><i class="fa fa-language"></i> <?php echo uilang("Home Thumbnail Mode") ?></label>
@@ -661,6 +647,28 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 									?>
 									<input name="newpicture" type="file" name="logo" style="display: inline-block; width: 300px; vertical-align: middle;">
 									<br>
+									<!-- background input -->
+									<br>
+
+								<label><i class="fa fa-check-circle"></i> Background</label>
+								<?php
+								if ($cfg->background == "") {
+									?>
+									<div style="display: inline-block; vertical-align: middle;">
+										<img src="images/logo.png" width="64">
+									</div>
+									<?php
+								} else {
+									?>
+									<div style="display: inline-block; text-align: center; vertical-align: middle;">
+										<img src="background/<?php echo $cfg->background ?>" width="64"><br>
+										<a href="<?php echo $baseurl ?>admin.php?settings&removebackground" class="textlink"><i class="fa fa-trash"></i> Remove</a>
+									</div>
+									<?php
+								}
+								?>
+								<input name="background" type="file" name="background" style="display: inline-block; width: 300px; vertical-align: middle;">
+									<br>
 												
 									<label><i class="fa fa-globe"></i> <?php echo uilang("Website Icon (.ico file)") ?></label>
 									<input type="file" name="favicon">
@@ -682,30 +690,8 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 										?>
 									</select>
 									<!--background-->
-									<!-- <label><i class="fa fa-check-circle"></i> Background</label>
-									<?php
-									if(isset($cfg->background)) {
-										if($cfg->background == ""){
-											?>
-											<div style="display: inline-block; vertical-align: middle;">
-												<img src="images/logo.png" width="64">
-											</div>
-											<?php
-										} else {
-											?>
-											<div style="display: inline-block; text-align: center; vertical-align: middle;">
-												<img src="pictures/<?php echo $cfg->background ?>" width="64"><br>
-												<a href="<?php echo $baseurl ?>admin.php?settings&removebackground" class="textlink"><i class="fa fa-trash"></i> Remove</a>
-											</div>
-											<?php
-										}
-									} else {
-										// Handle jika properti tidak terdefinisi
-										echo "Property 'background' is not defined in \$cfg object.";
-									}
-									?>
-									<input name="newpicture" type="file" name="background" style="display: inline-block; width: 300px; vertical-align: middle;">
-									<br> -->
+									
+									
 
 									<label><i class="fa fa-globe"></i> <?php echo uilang("Website Icon (.ico file)") ?></label>
 									<input type="file" name="favicon">

@@ -9,6 +9,7 @@
 		$definitions = array(
 			"A picture has been deleted." => "Sebuah gambar telah dihapus.",
 			"About" => "Tentang",
+			"About slide 2" => "deskripsi",
 			"Background" => "Background",
 			"Home Thumbnail Mode" => "Mode Thumbnail Halaman Utama",
 			"Center Filled" => "Penuh dari Tengah",
