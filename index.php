@@ -67,12 +67,14 @@ if($websitetitle == ""){
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
+			<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 <!--========== BOX ICONS ==========-->
 <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
 <!--========== CSS ==========-->
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+<link rel="stylesheet" href="assets/css/style2.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 			<?php include("style.php"); ?>
 			<script src="<?php echo $baseurl ?>somefunctions.js"></script>
@@ -87,18 +89,15 @@ if($websitetitle == ""){
     .inlinecenterblock button {
         height: 100%;
     }
-</style>
+	</style>
+	<script src="assets/js/script.js" defer></script>
 		</head>
 		<body>
-		<a href="#" class="scrolltop" id="scroll-top">
-            <i class='bx bx-chevron-up scrolltop__icon'></i>
-        </a>
-
-        <!--========== HEADER ==========-->
-        <header class="l-header" id="header1">
-            <nav class="nav bd-container">
-			<div class="inlinecenterblock">
-						<div>
+		
+			
+			 <nav class="nav">
+					<i class="uil uil-bars navOpenBtn"></i>
+					<a href="#" class="logo"><div>
 							<!-- <?php
 							$currentlogo = "images/logo.png";
 							if($logo != "")
@@ -106,86 +105,35 @@ if($websitetitle == ""){
 							?>
 							<a href="<?php echo $baseurl ?>"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 64px;"></a> -->
 						</div>
-						
-						
-					</div>
-					
 
-					<!-- <div class="nav__menu" id="nav-menu"> -->
-				<ul class="nav__list">
-					<li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
-					<li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-					<li class="nav__item"><a href="#product" class="nav__link">Shop</a></li>
-					<li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
-					<!-- <li><i class='bx bx-moon change-theme' id="theme-button"></i></li> -->
-					</ul>
-					<div class="nav__list">
-				<div class="inlinecenterblock floatright" >
-						<form class="d-flex" role="search" onsubmit="submitSearch(event)">
-							<input
-								<?php if(isset($_GET["post"])){ ?> onkeyup="searchonhomepage()" <?php } else { ?> onkeyup="quicksearch()" <?php } ?>
+      <ul class="nav-links">
+        <i class="uil uil-times navCloseBtn"></i>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#product">Products</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+
+      <i class="uil uil-search search-icon" id="searchIcon"></i>
+      <div class="search-box">
+        <i class="uil uil-search search-icon"></i>
+        <input type="text" placeholder="Search here..."
+		<?php if(isset($_GET["post"])){ ?> onkeyup="searchonhomepage()" <?php } else { ?> onkeyup="quicksearch()" <?php } ?>
 								id="quicksearch"
 								class="form-control me-2"
 								type="search"
 								placeholder="<?php echo uilang("Search") ?>..."
-								aria-label="Search"
-							>
-							<button class="btn btn-outline-success" type="submit">
-								<i class="fa fa-search"></i>
-							</button>
-						</form>
-						
-					</div>
-					</div>
-					
+								aria-label="Search" />
+      </div>
+    </nav>
+	
 
-					<div class="nav__toggle" id="nav-toggle">
-						<i class='bx bx-menu'></i>
-					</div>
-            </nav>
-        </header>
-
-					<script>
-						function quicksearch() {
-							// Mendapatkan nilai input pencarian
-							var searchInput = document.getElementById('quicksearch').value;
-
-							// Melakukan sesuatu dengan nilai input, misalnya memproses pencarian atau mengirimkan permintaan AJAX
-							// Disesuaikan dengan kebutuhan Anda
-							console.log('Pencarian: ' + searchInput);
-						}
-
-						function clearSearchInput() {
-							// Mengosongkan nilai input pencarian
-							document.getElementById('quicksearch').value = '';
-
-							// Memanggil fungsi pencarian kembali jika diperlukan
-							quicksearch();
-						}
-
-						function submitSearch(event) {
-							// Mencegah formulir untuk melakukan submit yang default
-							event.preventDefault();
-
-							// Memanggil fungsi pencarian dengan input yang telah dimasukkan
-							quicksearch();
-						}
-					</script>
-					<script>
-					document.getElementById('nav-toggle').addEventListener('click', function () {
-						var navList = document.querySelector('.nav__list');
-						var navSearch = document.querySelector('.nav__search');
-						navList.classList.toggle('active');
-						navSearch.classList.toggle('active');
-					});
-					</script>
-					
-				
-					
-
-        <main class="l-main">
-            <!--========== HOME ==========-->
-			<section class="home" id="home">
+        <!--========== HEADER ==========-->
+	
+             <!--========== HOME ==========-->
+			 
+			 <section class="home section bd-container" id="home" data-scroll="home">
 				<div class="home__container bd-container bd-grid">
 					<div class="home__data">
 						<div class="inlinecenterblock">
@@ -207,9 +155,9 @@ if($websitetitle == ""){
 						
 				</div>
 			</section>
-            
+
             <!--========== ABOUT ==========-->
-            <section class="about section bd-container" id="about">
+			<section class="about section bd-container" id="about" data-scroll="about">
                 <div class="about__container  bd-grid">
                     <div class="about__data">
                         <span class="section-subtitle about__initial">About us</span>
@@ -228,9 +176,34 @@ if($websitetitle == ""){
 						<img src="<?php echo $baseurl . $currentbackground ?>" class="about__img">
                 </div>
             </section>
-			<div id="header">
+			
 				<div>
-					
+					 <!--========== SERVICES ==========-->
+					 <section class="services section bd-container" id="services" data-scroll="services">
+                <span class="section-subtitle">Offering</span>
+                <h2 class="section-title">Our amazing services</h2>
+
+                <div class="services__container  bd-grid">
+                    <div class="services__content">
+                        
+                        <h3 class="services__title">Excellent food</h3>
+                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
+                    </div>
+
+                    <div class="services__content">
+                        >
+                         
+                        <h3 class="services__title">Fast food</h3>
+                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
+                    </div>
+
+                    <div class="services__content">
+                       
+                        <h3 class="services__title">Delivery</h3>
+                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
+                    </div>
+                
+            </section>
 					
 				</div>
 			</div>
@@ -975,4 +948,3 @@ if($websitetitle == ""){
 
 }
 ?>
-

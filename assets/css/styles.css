@@ -152,7 +152,7 @@ img{
 }
 
 /*========== NAV ==========*/
-.nav{
+/* .nav{
   max-width: 1024px;
   height: var(--header-height);
   display: flex;
@@ -215,7 +215,7 @@ img{
 /* Change background header */
 .scroll-header{
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
+} */
 
 /* Scroll top */
 .scrolltop{
@@ -483,7 +483,7 @@ img{
   }
 }
 
-@media screen and (min-width: 767px){
+@media screen and (min-width: 768px){
   body{
     margin: 0;
   }
@@ -492,26 +492,19 @@ img{
     padding-top: 8rem;
   }
 
-.logo{
-  height: 25px;
-}
   .nav{
     height: calc(var(--header-height) + 1.5rem);
   }
-   .nav__list{
+  .nav__list{
     display: flex;
-  }  
+  }
   .nav__item{
     margin-left: var(--mb-5);
     margin-bottom: 0;
-  } 
-  
-
-  
-   .nav__toggle{
+  }
+  .nav__toggle{
     display: none;
-  }  
- 
+  }
 
   .change-theme{
     position: initial;
