@@ -31,6 +31,7 @@
 			"Admin WhatsApp Phone Number" => "Nomor Hp Admin dengan WhatsApp aktif",
 			"All" => "Semua",
 			"Back" => "Kembali",
+			"Description" => "Deskripsi",
 			"Base URL (make sure to include '/' symbol at the end)" => "URL Dasar (pastikan Anda tambahkan simbol '/' di akhir)",
 			"Base URL" => "URL Dasar",
 			"Categories" => "Kategori",

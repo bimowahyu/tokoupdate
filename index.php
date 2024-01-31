@@ -84,12 +84,34 @@ if($websitetitle == ""){
         display: flex;
         align-items: stretch;
     }
-
+	body {
+            scroll-behavior: smooth;
+        }
     .inlinecenterblock input,
     .inlinecenterblock button {
         height: 100%;
     }
 	</style>
+	<script>document.addEventListener('DOMContentLoaded', function() {
+    // Menambahkan smooth scroll untuk semua tautan di navbar
+    var navLinks = document.querySelectorAll('.nav-links a');
+    
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            var targetId = this.getAttribute('href').substring(1);
+            var targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - document.querySelector('.nav').offsetHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});</script>
 	<script src="assets/js/script.js" defer></script>
 		</head>
 		<body>
@@ -109,10 +131,10 @@ if($websitetitle == ""){
       <ul class="nav-links">
         <i class="uil uil-times navCloseBtn"></i>
         <li><a href="#home">Home</a></li>
-        <li><a href="#">Services</a></li>
+        <li><a href="#services">Services</a></li>
         <li><a href="#product">Products</a></li>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="#footer">Contact Us</a></li>
       </ul>
 
       <i class="uil uil-search search-icon" id="searchIcon"></i>
@@ -179,28 +201,29 @@ if($websitetitle == ""){
 			
 				<div>
 					 <!--========== SERVICES ==========-->
-					 <section class="services section bd-container" id="services" data-scroll="services">
-                <span class="section-subtitle">Offering</span>
-                <h2 class="section-title">Our amazing services</h2>
+					<section class="services section bd-container" id="services" data-scroll="services">
+						<span class="section-subtitle">Offering</span>
+						<h2 class="section-title">Our amazing services</h2>
 
-                <div class="services__container  bd-grid">
+						<div class="services__container  bd-grid">
+							<div class="services__content">
+								
+								<h3 class="services__title">Keramahan di utamakan</h3>
+								<p class="services__description">Setiap senyuman, setiap kata sopan, dan setiap tindakan ramah merupakan bagian dari identitas kami. 
+									</p>
+							</div>
+
                     <div class="services__content">
                         
-                        <h3 class="services__title">Excellent food</h3>
-                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
-                    </div>
-
-                    <div class="services__content">
-                        >
                          
-                        <h3 class="services__title">Fast food</h3>
-                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
+                        <h3 class="services__title">Pelayanan Cepat</h3>
+                        <p class="services__description">Tim kami yang profesional dan berpengalaman siap memberikan solusi secepat mungkin. </p>
                     </div>
 
                     <div class="services__content">
                        
-                        <h3 class="services__title">Delivery</h3>
-                        <p class="services__description">We offer our clients excellent quality services for many years, with the best and delicious food in the city.</p>
+                        <h3 class="services__title">Pengiriman terjangkau</h3>
+                        <p class="services__description"> kami berkomitmen untuk menyediakan pengiriman yang terjangkau agar Anda dapat menikmati produk pilihan tanpa beban biaya yang tinggi.</p>
                     </div>
                 
             </section>
@@ -483,7 +506,7 @@ if($websitetitle == ""){
 											<div class="lilimage" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;"></div>
 											<div class="lildescr">
 												<div class="shorttext" style="font-size: 18px; font-weight: bold;">
-													<?php echo $row["title"] ?><br><i class="fa fa-angle-double-right"></i> <?php echo $oldprice. $currencysymbol . number_format($saleprice, $deccount) ?>
+													<?php echo $row["title"] ?><br><i class="fa fa-angle-double-right"></i><?php echo $oldprice . $currencysymbol . number_format(floatval($saleprice), $deccount) ?>
 												</div>
 												<div style="padding-left: 14px;">
 													<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
@@ -625,7 +648,7 @@ if($websitetitle == ""){
 										
 										<h2 style="margin-top: 20px;" class="producttitle"><?php echo shorten_text($row["title"], 25, ' ...', false) ?></h2><div class="realproducttitle" style="display: none"><?php echo $row["title"] ?></div><div class="productoptions" style="display: none"><?php echo $row["options"] ?></div><div style="padding-bottom: 20px; font-size: 25px; font-weight: bold; color: <?php echo $maincolor ?>"><?php echo $oldprice . $currencysymbol . "<span class='thiscurrentpricedisplay'>" . number_format($saleprice, $deccount) ?></span><span style="display: none;" class="thiscurrentprice"><?php echo $saleprice ?></span> <span style="font-size: 12px;">x</span> <input class="productquantity" type="number" value=1 min=1 style="vertical-align: middle; display: inline-block; width: 60px; font-weight: bold; padding: 10px; margin: 5px; border-radius: 0px;" onkeyup="onlyNumbers(this)"></div>
 										<div class="morebutton" onclick="addtocart(<?php echo $productindex ?>)"><i class="fa fa-shopping-cart"></i> <?php echo uilang("Add to Cart") ?></div>
-										<div style="padding: 20px;"><a onclick="showmore(<?php echo $productindex ?>)" class="textlink whatsmorebutton" style="cursor: pointer; text-decoration: none;"><i class="fa fa-chevron-down"></i> <?php echo uilang("More") ?></a><div class="whatsmorecontent" style="display: none; padding: 5px; font-size: 12px;"><?php echo shorten_text(strip_tags($row["content"]), 50, " ...") ?><br><a class="textlink" href="<?php echo $baseurl ?>?post=<?php echo $row["postid"] ?>"><?php echo uilang("Continue") ?></a></div></div>
+										<div style="padding: 20px;"><a onclick="showmore(<?php echo $productindex ?>)" class="textlink whatsmorebutton" style="cursor: pointer; text-decoration: none;"><i class="fa fa-chevron-down"></i> <?php echo uilang("Description") ?></a><div class="whatsmorecontent" style="display: none; padding: 5px; font-size: 12px;"><?php echo shorten_text(strip_tags($row["content"]), 50, " ...") ?><br><a class="textlink" href="<?php echo $baseurl ?>?post=<?php echo $row["postid"] ?>">	</a></div></div>
 									</div>
 								</div>
 								<?php
@@ -654,6 +677,47 @@ if($websitetitle == ""){
 			
 			
 			<!-- Footer -->
+			<footer class="footer section bd-container" id="footer">
+            <div class="footer__container bd-grid">
+                <div class="footer__content">
+                    <a href="#" class="footer__logo"><?php echo $websitetitle?></a>
+                    <span class="footer__description"></span>
+                    <div>
+                        <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
+                        <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
+                        <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
+                    </div>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Services</h3>
+                    <ul>
+                        <li><a href="#" class="footer__link">Delivery</a></li>
+                        <li><a href="#" class="footer__link">Pricing</a></li>
+                        <li><a href="#" class="footer__link">Fast service</a></li>
+                        <!-- <li><a href="#" class="footer__link">Reserve your spot</a></li> -->
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Information</h3>
+                    <ul>
+                        <li><a href="#" class="footer__link">Event</a></li>
+                        <li><a href="https:wa.me/<?php echo $adminwhatsapp ?>" class="footer__link">Contact us</a></li>
+                        <li><a href="#" class="footer__link">Privacy policy</a></li>
+                        <li><a href="#" class="footer__link">Terms of services</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__content" style="position: center;">
+                    <h3 class="footer__title">Adress</h3>
+                    <iframe src=”https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.683728838511!2d107.6198273144352!3d-6.928355569741015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e87ffb3736a5%3A0x1fa0782bad367c26!2sWebhozz+Bandung!5e0!3m2!1sid!2sid!4v1512984270823″
+						 width=”600″ height=”450″ frameborder=”0″ style=”border:0″ allowfullscreen></iframe>
+                </div>
+            </div>
+
+           
+       
 			<div class="section footercopyright">
 				<span>© <?php echo date("Y"); ?> <?php echo $websitetitle; ?>. All rights reserved.</span>
 			</div>

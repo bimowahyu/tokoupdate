@@ -79,7 +79,10 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 				border-radius: 10px;
 				width: 0;
 			}
+			/* <!-- boodstrap --> */
+			
 		</style>
+		<!-- boodstrap -->
 	</head>
 	<body>
 		<div class="barsbutton" onclick="toggleadminmenu()"><i class="fa fa-bars"></i></div>
@@ -937,7 +940,7 @@ if (time() - $_SESSION['login_time'] > $timeout) {
 												?>
 												<tr>
 													<td><?php echo $postdate ?></td>
-													<td><?php echo nl2br($row["message"]) ?></td>
+													<td style="color message:black;"><?php echo nl2br($row["message"]) ?></td>
 												</tr>
 												<?php
 											}

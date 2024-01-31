@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jan 2024 pada 19.14
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Waktu pembuatan: 31 Jan 2024 pada 17.59
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `login` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `login`
@@ -49,8 +49,8 @@ INSERT INTO `login` (`username`, `password`) VALUES
 
 CREATE TABLE `tabeltokocategories` (
   `id` int(6) UNSIGNED NOT NULL,
-  `category` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `category` varchar(50) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tabeltokocategories`
@@ -70,15 +70,15 @@ INSERT INTO `tabeltokocategories` (`id`, `category`) VALUES
 CREATE TABLE `tabeltokoconfig` (
   `id` int(6) UNSIGNED NOT NULL,
   `config` varchar(150) NOT NULL,
-  `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `value` text CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tabeltokoconfig`
 --
 
 INSERT INTO `tabeltokoconfig` (`id`, `config`, `value`) VALUES
-(1, 'cfg', '{\"websitetitle\":\"Toko Online WA\",\"maincolor\":\"#0DF2E0\",\"secondcolor\":\"#0AFFE4\",\"about\":\"<p>Toko online belanja melalui wa<\\/p>\",\"language\":\"id\",\"thumbnailmode\":\"0\",\"logo\":\"4u9cdtxp31.png\",\"background\":\"fi8wlb0uc0.jpeg\",\"adminwhatsapp\":\"085161671965\",\"currencysymbol\":\"Rp\",\"baseurl\":\"http:\\/\\/localhost\\/WhatsUpShop\\/\",\"enablerecentpostsliders\":\"1\",\"enablefacebookcomment\":\"1\",\"enablepublishdate\":\"1\",\"disabledecimals\":\"1\"}');
+(1, 'cfg', '{\"websitetitle\":\"Toko Online WA\",\"maincolor\":\"#5129F2\",\"secondcolor\":\"#5A08FF\",\"about\":\"<p>Toko online belanja melalui wa<\\/p>\",\"about2\":\"<p>Mari berbelanja<\\/p>\",\"about3\":\"<p>toko kita menjual berbagai macam pakaian dan sepatu<\\/p>\",\"language\":\"id\",\"thumbnailmode\":\"0\",\"logo\":\"ljqgil1dcp.png\",\"background\":\"whkfl3fm64.png\",\"adminwhatsapp\":\"085161671965\",\"currencysymbol\":\"Rp\",\"baseurl\":\"http:\\/\\/localhost\\/tokoupdate\\/\",\"enablerecentpostsliders\":\"1\",\"enablefacebookcomment\":\"0\",\"enablepublishdate\":\"1\",\"disabledecimals\":\"1\"}');
 
 -- --------------------------------------------------------
 
@@ -89,8 +89,8 @@ INSERT INTO `tabeltokoconfig` (`id`, `config`, `value`) VALUES
 CREATE TABLE `tabeltokologin` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `value` text CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -100,9 +100,9 @@ CREATE TABLE `tabeltokologin` (
 
 CREATE TABLE `tabeltokomessages` (
   `id` int(6) UNSIGNED NOT NULL,
-  `date` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `message` varchar(1300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `date` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `message` varchar(1300) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tabeltokomessages`
@@ -123,14 +123,14 @@ CREATE TABLE `tabeltokoposts` (
   `catid` int(6) NOT NULL,
   `normalprice` float NOT NULL,
   `discountprice` float NOT NULL,
-  `title` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `title` varchar(300) CHARACTER SET utf8 NOT NULL,
   `time` varchar(150) NOT NULL,
   `options` varchar(200) NOT NULL,
   `picture` varchar(300) NOT NULL,
   `moreimages` text NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `content` text CHARACTER SET utf8 NOT NULL,
   `stok` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tabeltokoposts`
@@ -138,7 +138,10 @@ CREATE TABLE `tabeltokoposts` (
 
 INSERT INTO `tabeltokoposts` (`id`, `postid`, `catid`, `normalprice`, `discountprice`, `title`, `time`, `options`, `picture`, `moreimages`, `content`, `stok`) VALUES
 (1, 'mamfrjalsw', 1, 80000, 0, 'Sepatu ventela 1', '1703777037878', '', 'rkmyjqkgp1.jpeg', '', '<p>p</p>', 1),
-(2, 'pvbehzsang', 4, 10000, 0, 'Baju polos', '1703777057158', '', '9tcadpfdoz.jpeg', '', '<p>p</p>', 12);
+(2, 'pvbehzsang', 4, 10000, 0, 'Baju polos', '1703777057158', '', 'drg649ru2h.jpeg', '', '<p>p</p>', 12),
+(3, 'vemcvxlgie', 2, 20000, 0, 'celana chinos berbagai warna', '1705824765895', '', '95zgkkox9k.jpeg', '', '<p>celana panjang</p>', 0),
+(4, 'vxafgonwfd', 1, 70000, 0, 'Sepatu ventela', '1705824815883', '', 'eglcfgoajt.jpeg', '', '<p>sepatu uk 43</p>', 0),
+(5, 'amrhcnvsbl', 4, 70000, 0, 'kemeja', '1705824883621', '', 'goudu2s3ch.jpeg', '', '<p>kemeja xl</p>', 0);
 
 --
 -- Indexes for dumped tables
@@ -200,7 +203,7 @@ ALTER TABLE `tabeltokomessages`
 -- AUTO_INCREMENT untuk tabel `tabeltokoposts`
 --
 ALTER TABLE `tabeltokoposts`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -403,7 +403,8 @@
 	}
 	
 	.posttableblock{
-		display: table; width: 100%;
+		display: table; width: 40%;
+		justify-content: center;
 	}
 	
 	.postcontent{
@@ -759,7 +760,7 @@
 		
 		.postcontent{
 			display: block;
-			padding-right: 0px;
+			padding-left: 10em;
 		}
 		
 		.randomvids{
@@ -769,7 +770,7 @@
 		}
 		
 		.randomvidblock{
-			display: table;
+			display: inline-block;
 			width: 100%;
 			padding: 14px;
 			transition: background-color .5s;
